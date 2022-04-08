@@ -105,6 +105,13 @@ namespace Network_Scanner
             return null;
         }
 
+        /**
+         * Doing that StackOverflow thing... this solution comes from:
+         * https://stackoverflow.com/questions/12802888/get-a-machines-mac-address-on-the-local-network-from-its-ip-in-c-sharp
+         * No shame!
+         * 
+         * private string GetMacAddress (string ip)
+         */
         private IEnumerable<MacIpPair> GetMacIpPairs()
         {
             System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
