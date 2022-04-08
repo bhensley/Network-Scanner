@@ -21,7 +21,7 @@
                 <MenuItem Header="_Exit" Click="menuMain_File_Exit_Click" />
             </MenuItem>
         </Menu>
-        <DataGrid x:Name="dgScanResults" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgScanResults" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" />
                 <DataGridTextColumn Header="Hostname" Binding="{Binding Hostname}" />
@@ -29,7 +29,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBox x:Name="txtSubnet" HorizontalAlignment="Right" Margin="437,0,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Subnet" VerticalAlignment="Center" Height="20" Width="180" GotFocus="txtSubnet_GotFocus" LostFocus="txtSubnet_LostFocus"/>
-        <Button x:Name="btnScan" Grid.Column="1" Content="Scan" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="20"/>
+        <Button x:Name="btnScan" Grid.Column="1" Content="Scan" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="20" Click="btnScan_Click"/>
 
     </Grid>
 

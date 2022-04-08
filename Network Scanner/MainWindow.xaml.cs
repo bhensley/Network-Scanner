@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,14 @@ namespace Network_Scanner
     /// </summary>
     public partial class MainWindow : Window
     {
+        NetworkScanner networkScanner = new NetworkScanner();
+
         public MainWindow()
         {
             InitializeComponent();
-        }
 
+            networkScanner.PingEvent += NetworkScanner_PingEvent;
+        }
         private void menuMain_File_Exit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
@@ -39,5 +43,16 @@ namespace Network_Scanner
         {
             if (txtSubnet.Text.Length == 0) txtSubnet.Text = "Subnet";
         }
+
+        private void btnScan_Click(object sender, RoutedEventArgs e)
+        {
+            networkScanner.Subnet = txtSubnet.Text;
+            networkScanner.PerformScanAsync();
+        }
+        private void NetworkScanner_PingEvent(object sender, List<ScanResult> e)
+        {
+            dgScanResults.ItemsSource = e;
+        }
+
     }
 }
