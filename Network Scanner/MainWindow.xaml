@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Network_Scanner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Network Scanner" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="12*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="menuMain" Grid.ColumnSpan="2" VerticalAlignment="Center">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" Click="menuMain_File_Exit_Click" />
+            </MenuItem>
+        </Menu>
+        <DataGrid x:Name="dgScanResults" Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="IP Address" Binding="{Binding IpAddress}" />
+                <DataGridTextColumn Header="Hostname" Binding="{Binding Hostname}" />
+                
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="txtSubnet" HorizontalAlignment="Right" Margin="437,0,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Subnet" VerticalAlignment="Center" Height="20" Width="180" GotFocus="txtSubnet_GotFocus" LostFocus="txtSubnet_LostFocus"/>
+        <Button x:Name="btnScan" Grid.Column="1" Content="Scan" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="20"/>
 
     </Grid>
+
 </Window>

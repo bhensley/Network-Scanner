@@ -24,5 +24,20 @@ namespace Network_Scanner
         {
             InitializeComponent();
         }
+
+        private void menuMain_File_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void txtSubnet_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtSubnet.Text == "Subnet") txtSubnet.Text = "";
+        }
+
+        private void txtSubnet_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtSubnet.Text.Length == 0) txtSubnet.Text = "Subnet";
+        }
     }
 }
