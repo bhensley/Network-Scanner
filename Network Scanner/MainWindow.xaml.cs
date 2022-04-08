@@ -46,7 +46,10 @@ namespace Network_Scanner
 
         private void btnScan_Click(object sender, RoutedEventArgs e)
         {
-            networkScanner.Subnet = txtSubnet.Text;
+            string subnet = txtSubnet.Text;
+            if (subnet[subnet.Length - 1] != '.') subnet += ".";
+
+            networkScanner.Subnet = subnet;
             networkScanner.PerformScanAsync();
         }
         private void NetworkScanner_PingEvent(object sender, List<ScanResult> e)
