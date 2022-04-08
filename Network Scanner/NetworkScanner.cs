@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 
 namespace Network_Scanner
 {
@@ -58,7 +59,7 @@ namespace Network_Scanner
             PingEvent?.Invoke(this, ScanResults);
         }
 
-        private async Task PingAndAddAsync (System.Net.NetworkInformation.Ping p, string ip)
+        private async Task PingAndAddAsync (Ping p, string ip)
         {
             var reply = await p.SendPingAsync(ip, 250).ConfigureAwait(false);
 
@@ -79,12 +80,51 @@ namespace Network_Scanner
                 ScanResults.Add(new ScanResult
                 {
                     IpAddress = ip,
-                    Hostname = hostName
+                    Hostname = hostName,
+                    MacAddress = GetMacAddress(ip),
                 });
 
                 lock (ScanResults) {
                     resultsFound++;
                 }
+            }
+        }
+
+        private string GetMacAddress (string ip)
+        {
+            var pairs = GetMacIpPairs();
+
+            foreach (var pair in pairs)
+            {
+                if (pair.IpAddress == ip)
+                {
+                    return pair.MacAddress;
+                }
+            }
+
+            return null;
+        }
+
+        private IEnumerable<MacIpPair> GetMacIpPairs()
+        {
+            System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
+            pProcess.StartInfo.FileName = "arp";
+            pProcess.StartInfo.Arguments = "-a ";
+            pProcess.StartInfo.UseShellExecute = false;
+            pProcess.StartInfo.RedirectStandardOutput = true;
+            pProcess.StartInfo.CreateNoWindow = true;
+            pProcess.Start();
+
+            string cmdOutput = pProcess.StandardOutput.ReadToEnd();
+            string pattern = @"(?<ip>([0-9]{1,3}\.?){4})\s*(?<mac>([a-f0-9]{2}-?){6})";
+
+            foreach (Match m in Regex.Matches (cmdOutput, pattern, RegexOptions.IgnoreCase))
+            {
+                yield return new MacIpPair()
+                {
+                    MacAddress = m.Groups["mac"].Value,
+                    IpAddress = m.Groups["ip"].Value
+                };
             }
         }
     }
